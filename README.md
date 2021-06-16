@@ -104,3 +104,29 @@ cp *.log bak/  => 반드시 bak파일이 있기에 현 디렉토리의 모든 .l
   * dow : 요일을 의미한다.
   *  command : 시행할 작업을 입력해준다
   * 만약 */1 * * * * date >> date.log 면 1분에 한번씩 date(현재 시간 출력) 명령을 date.log파일에 입력하는 작업을 정기적 작업으로 설정해주게 되고. tail -f date.log로 date.log파일의 상태를 보고 있으면 1분마다 시간이 찍히는 것을 확인할 수 있다 또한 명령에서 에러가 발생하게 되는 경우가 있는데 에러는 오류 출력 스트림으로 출력을 볼 수 있기 때문에 date >> date.log 2>1 : 2>&1하게 되면 표준 에러를 표준 출력스트림으로  바꿔주어 에러가 표준 출력으로 리다이렉션되어 date.log에 같이 찍히게 된다.
+## 사용자
+> 다중 사용자
+ 유닉스 기반 운영체제는 기본적으로 다중사용자가 사용할 수 있도록 설계되었기 때문에 여러명이 하나의 리눅스를 사용하는 경우 어떤 장단점이 있고 어떤 위험이 있는지 정도는 숙지해야 한다고 생각한다.
+* id : id를 터미널에 명령하면 id목록들이 나온다. uid라는 항목이 나의 id이다.
+* who : who를 명령하면 현재 시스템이 누가 접속해 있는지 가시해준다.
+> 관리자와 일반 사용자
+사용자에는 super user(관리자)와 user(일반 사용자) 가 있다. 
+* 일반 사용자는 sudo 명령을 사용할 수 없다.
+* root 유저는 일반적으로 이름도 root일 확률이 높다. 그리고 터미널의 $표기가 되있다면 일반 유저라는 의미이다. 슈퍼유저는 #으로 되어있다. 그렇다면 슈퍼유저로 설정은 어떻게 할까?=> su – root 라고 한다면 root에 대한 패스워드만 알고 있다면 root유저를 사용할 수 있게 된다. 다만 일반적으로는 root유저는 락을 걸어 놓는게 안전하다.
+* Root 유저는 기본적으로 최상위 디렉토리 밑의 /root 디렉토리가 홈디렉토리로 설정되어있다. 
+> 사용자 추가
+* sudo useradd -m duru :  사용자를 추가하는건 당연히 super user의 권한으로 가능하다. useradd와 -m 유저명 으로 새 유저를 생성가능하고 확인해 보려면 home 디렉토리로 가서 목록을 확인하면 위의 duru라는 사용자가 생성된 것을 볼 수 있었다.
+* duru를 사용해보려 su - duru를 해도 비밀번호를 세팅하지 않았기에 사용 불가하다.
+  * sudo passwd duru : passwd 유저명 으로 비밀번호를 세팅할 수 있다.
+* sudo useradd -a -G sudo duru : duru 유저에게 super user의 권한으로 명령어 수행이 가능하게 하는 명령어.
+
+## 권한
+> 권한 기본
+touch perm.txt를 만들고 ls -l perm.txt 하면 파일의 상세정보를 출력해준다.
+=> -rw-rw-r-- 1 minyoung minyoung 0  6월 16 23:55 perm.txt 이런식으로 출력되는데  첫번째 minyoung이 소유자를 명시하고 echo hi > perm.txt 로 hi라는 문자를 저장해준다.
+이후 duru 계정으로 접속해 위의 perm.txt를 확인해 보겠다. 해당 파일을 확인후 hello라는 문자를 저장해 주려 하면 Permission denied 오류가 발생한다.즉 파일에 대한 권한이 없어 접근 불가하다는 것이다.그럼 저 파일 상세정보를 뜯어보자
+-|rw-rw-r--| 1 | minyoung minyoung | 0 | 6월 16 23:55| perm.txt|
+* 첫번째 영역 - 는 type이다 perm.txt가 - 인건 기본 파일이라는 뜻이고 디렉토리면 d라는 알파벳으로 표기
+* 두번째 영역은 access mode라고한다. 저 9자리를 3자리씩 나누어 첫 rw-는 owner의 권한, 둘째 rw-는 group의 권한, 셋째 r-- 는 이 운영체제에 owner도 group도 아닌 사용자들의 권한이다. 여기에서 r은 read를 의미,w는 write , -가 있는자리는 x가 올수 있는데 excute(실행)를 의미한다.
+즉 owner minyoung은 perm.txt에 대해 read,write권한은 있지만 excute권한은 없는것이다.
+* 네번째 영역은 첫 minyoung은 owner 두번째 minyoung은 group이다. owner는 해당 파일이 누구의 파일인지를 명시해준다.
