@@ -122,11 +122,11 @@ cp *.log bak/  => 반드시 bak파일이 있기에 현 디렉토리의 모든 .l
 
 ## 권한
 > 권한 기본
-touch perm.txt를 만들고 ls -l perm.txt 하면 파일의 상세정보를 출력해준다.
-=> -rw-rw-r-- 1 minyoung minyoung 0  6월 16 23:55 perm.txt 이런식으로 출력되는데  첫번째 minyoung이 소유자를 명시하고 echo hi > perm.txt 로 hi라는 문자를 저장해준다.
-이후 duru 계정으로 접속해 위의 perm.txt를 확인해 보겠다. 해당 파일을 확인후 hello라는 문자를 저장해 주려 하면 Permission denied 오류가 발생한다.즉 파일에 대한 권한이 없어 접근 불가하다는 것이다.그럼 저 파일 상세정보를 뜯어보자
--|rw-rw-r--| 1 | minyoung minyoung | 0 | 6월 16 23:55| perm.txt|
-* 첫번째 영역 - 는 type이다 perm.txt가 - 인건 기본 파일이라는 뜻이고 디렉토리면 d라는 알파벳으로 표기
-* 두번째 영역은 access mode라고한다. 저 9자리를 3자리씩 나누어 첫 rw-는 owner의 권한, 둘째 rw-는 group의 권한, 셋째 r-- 는 이 운영체제에 owner도 group도 아닌 사용자들의 권한이다. 여기에서 r은 read를 의미,w는 write , -가 있는자리는 x가 올수 있는데 excute(실행)를 의미한다.
-즉 owner minyoung은 perm.txt에 대해 read,write권한은 있지만 excute권한은 없는것이다.
-* 네번째 영역은 첫 minyoung은 owner 두번째 minyoung은 group이다. owner는 해당 파일이 누구의 파일인지를 명시해준다.
+1. touch perm.txt를 만들고 ls -l perm.txt 하면 파일의 상세정보를 출력해준다.
+1. => -rw-rw-r-- 1 minyoung minyoung 0  6월 16 23:55 perm.txt 이런식으로 출력되는데 echo hi > perm.txt 로 hi라는 문자를 저장해준다.
+1. 이후 duru 계정으로 접속해 위의 perm.txt를 확인해 보겠다. 해당 파일을 확인후 hello라는 문자를 저장해 주려 하면 Permission denied 오류가 발생한다.즉 파일에 대한 권한이 없어 접근 불가하다는 것이다.그럼 저 파일 상세정보를 뜯어보자
+1.-|rw-rw-r--| 1 | minyoung minyoung | 0 | 6월 16 23:55| perm.txt|
+ - 첫번째 영역 - 는 type이다 perm.txt가 - 인건 기본 파일이라는 뜻이고 디렉토리면 d라는 알파벳으로 표기
+ - 두번째 영역은 access mode라고한다. 저 9자리를 3자리씩 나누어 첫 rw-는 owner의 권한, 둘째 rw-는 group의 권한, 셋째 r-- 는 이 운영체제에 owner도 group도 아닌 사용자들의 권한이다. 여기에서 r은 read를 의미,w는 write , -가 있는자리는 x가 올수 있는데 excute(실행)를 의미한다.
+ - 즉 owner minyoung은 perm.txt에 대해 read,write권한은 있지만 excute권한은 없는것이다.
+ - 네번째 영역은 첫 minyoung은 owner 두번째 minyoung은 group이다. owner는 해당 파일이 누구의 파일인지를 명시해준다.
