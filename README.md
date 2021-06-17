@@ -127,6 +127,26 @@ cp *.log bak/  => 반드시 bak파일이 있기에 현 디렉토리의 모든 .l
 1. 이후 duru 계정으로 접속해 위의 perm.txt를 확인해 보겠다. 해당 파일을 확인후 hello라는 문자를 저장해 주려 하면 Permission denied 오류가 발생한다.즉 파일에 대한 권한이 없어 접근 불가하다는 것이다.그럼 저 파일 상세정보를 뜯어보자
 1.-|rw-rw-r--| 1 | minyoung minyoung | 0 | 6월 16 23:55| perm.txt|
  - 첫번째 영역 - 는 type이다 perm.txt가 - 인건 기본 파일이라는 뜻이고 디렉토리면 d라는 알파벳으로 표기
- - 두번째 영역은 access mode라고한다. 저 9자리를 3자리씩 나누어 첫 rw-는 owner의 권한, 둘째 rw-는 group의 권한, 셋째 r-- 는 이 운영체제에 owner도 group도 아닌 사용자들의 권한이다. 여기에서 r은 read를 의미,w는 write , -가 있는자리는 x가 올수 있는데 excute(실행)를 의미한다.
+ - 두번째 영역은 access mode라고한다. 저 9자리를 3자리씩 나누어 첫 rw-는 owner의 권한, 둘째 rw-는 group의 권한, 셋째 r-- 는 이 운영체제에 모든 사용자들의 기본 권한이다. 여기에서 r은 read를 의미,w는 write , -가 있는자리는 x가 올수 있는데 excute(실행)를 의미한다.
  - 즉 owner minyoung은 perm.txt에 대해 read,write권한은 있지만 excute권한은 없는것이다.
  - 네번째 영역은 첫 minyoung은 owner 두번째 minyoung은 group이다. owner는 해당 파일이 누구의 파일인지를 명시해준다.
+> 권한 변경하는 방법 – chmod
+* perm.txt파일은 전체사용자 권한이 r—이었다. 다만 perm.txt가 보안적으로 중요한 파일이라 권한이 있는 사용자만 읽게 하게해야 된다면? 이럴때 사용하는게 chmod
+* chmod o-r perm.txt : perm.txt의 other의 권한중 read를 -없애고 싶다 라는 명령
+* Chmod o+r perm.txt : perm.txt에 other의 권한중 read를 +추가하고 싶다.라는 명령
+* 그럼 user=소유자의 권한을 막아놓을 수 있나? => 가능하다.
+> 디렉토리 권한
+* 똑같이 chmod로 설정하고 r은 파일의 내용 읽, w는 디렉토리내 파일을 추가,삭제,이름변경등 , x는  디렉토리에 접근에 대한 권한정보이다.추가적으로 chmod -R o+w perm 은 perm디렉토리 내의 모든 디렉토리에 o+w 설정을 적용한다는 의미이다.
+> access mode
+| 입력 | Permission | rwx |
+|---|:---:|---:|
+| 7 | read,write and execute | rwx |
+| 6 | read and write | rw- |
+| 5 | read and execute | r-x
+| 4 | read only | r-- |
+| 3 | write and execute | -wx |
+| 2 | write only | -w- |
+| 1 | execute only | --x |
+| 0 | none | --- |
+* 이러한 표를 바탕으로 chmod를 사용 해주면 전 명령들과 달리 간편하게 권한 설정이 가능하다.
+ * chmod 111 perm.txt -> user,group, other에게 1,1,1의 권한을 설정하는 것으로 모두 --x|--x|--x로 설정되는 것을 확인할 수 있다.
