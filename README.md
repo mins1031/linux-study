@@ -138,6 +138,7 @@ cp *.log bak/  => 반드시 bak파일이 있기에 현 디렉토리의 모든 .l
 > 디렉토리 권한
 * 똑같이 chmod로 설정하고 r은 파일의 내용 읽, w는 디렉토리내 파일을 추가,삭제,이름변경등 , x는  디렉토리에 접근에 대한 권한정보이다.추가적으로 chmod -R o+w perm 은 perm디렉토리 내의 모든 디렉토리에 o+w 설정을 적용한다는 의미이다.
 > access mode
+
 | 입력 | Permission | rwx |
 |---|:---:|---:|
 | 7 | read,write and execute | rwx |
